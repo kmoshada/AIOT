@@ -1,13 +1,12 @@
-Diabetes Diagnosis Dataset(https://www.kaggle.com/datasets/abhayayare/diabetes-diagnosis-dataset/data)
-
+(https://www.kaggle.com/datasets/abhayayare/diabetes-diagnosis-dataset/data)
+Diabetes Diagnosis Dataset
 	Age: The age of the patient.**
 	Gender: The gender of the patient.**
 	Blood_Glucose_Level: The measured blood glucose level of the patient.
-	Insulin_Level: The measured insulin level of the patient.
 	Diagnosis: The diagnosis result indicating whether the patient has diabetes (Positive) or not (Negative). == y
 	
-Hypertension-risk-model-main(https://www.kaggle.com/datasets/khan1803115/hypertension-risk-model-main/data)
-
+(https://www.kaggle.com/datasets/khan1803115/hypertension-risk-model-main/data)
+Hypertension-risk-model-main
 	male (gender)*
 	age (age of the individual)**
 	currentSmoker (smoking status)**
@@ -22,12 +21,12 @@ Hypertension-risk-model-main(https://www.kaggle.com/datasets/khan1803115/hyperte
 	glucose (glucose level)
 	Risk (hypertension risk status) == y
 	
-Non-alcohol fatty liver disease (NAFLD)(https://www.kaggle.com/datasets/utkarshx27/non-alcohol-fatty-liver-disease?select=nafld1.csv)
 
+(NAFLD)(https://www.kaggle.com/datasets/utkarshx27/non-alcohol-fatty-liver-disease?select=nafld1.csv)
+Non-alcohol fatty liver disease 
 	age	age at entry to the study**      
 	male	0=female, 1=male**
 	bmi	body mass index**
-	futime	time to death or last follow-up
 	status	0= alive at last follow-up, 1=dead ==y
 	
 
