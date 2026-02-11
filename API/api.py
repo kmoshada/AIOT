@@ -1,38 +1,42 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import List
+import sklearn 
 import joblib
 
+path_model01 = 'Modules/diabetes_model.joblib'
+path_model02 = "Modules/hypertension_model.joblib"
+path_model03 = 'Modules/nafld_model.joblib'
 
-model01 = joblib.load('predictor01.joblib')
-model02 = joblib.load('predictor02.joblib')
-model03 = joblib.load('predictor03.joblib')
+model01 = model02 = model03 = None
 
+print("Loading models...")
 
-""" class Diabetes(BaseModel):
-    glucose: float
-    age: int
-    gender: int
+print("+-----------------------------------------------------------------------+")
+try:
+    model01 = joblib.load(path_model01)
+    print("|  diabetes model is loaded       |")
 
-class Hypertension(BaseModel):
-    gender: int
-    age: int
+except Exception as e:
+    print(f"Warning: Error loading diabetes_model.joblib: {e}")
 
-    currentSmoker: int
-    cigsPerDay: float
-    BPMeds: int
-    diabetes: int
-    totChol: float
-    sysBP: float
-    diaBP: float
-    BMI: float
-    heartRate: float
-    glucose: float
+print("+-----------------------------------------------------------------------+")
 
-class NFLD(BaseModel):
-    age: int
-    gender: int
-    BMI: float """
+try:
+    model02 = joblib.load(path_model02)
+    print("|  hypertension model is loaded   |")
+
+except Exception as e:
+    print(f"Warning: Error loading hypertension_model.joblib: {e}")
+
+print("+-----------------------------------------------------------------------+")
+
+try:
+    model03 = joblib.load(path_model03)
+    print("|  nafld model is loaded          |")
+except Exception as e:
+    print(f"Warning: Error loading nafld_model.joblib: {e}")
+
+print("+-----------------------------------------------------------------------+")
 
 class Prediction(BaseModel):
     gender: int
@@ -57,39 +61,34 @@ def read():
 @app.post("/predict")
 def predict(data: Prediction):
 
-     diabetes_features = [[
-         data.glucose,
-         data.age,
-         data.gender
-     ]]
+    results = {}
 
-     hypertension_features = [[
-         data.gender,
-         data.age,
-         data.currentSmoker,
-         data.cigsPerDay,
-         data.BPMeds,
-         data.diabetes,
-         data.totChol, data.sysBP, data.diaBP,
-         data.BMI, data.heartRate, data.glucose
-     ]]
+    if model01:
+        diabetes_features = [[data.age, data.gender,data.glucose]]
+        pred01 = model01.predict(diabetes_features)
+        results["Diabetes"] = pred01[0].item()
+    else:
+        results["Diabetes"] = "Error loading diabetes_model"
 
-     nfld_features = [[
-         data.age,
-         data.gender,
-         data.BMI
-     ]]
-     
+    if model02:
+        hypertension_features = [[
+            data.gender, data.age, data.currentSmoker, data.cigsPerDay,
+            data.BPMeds, data.diabetes, data.totChol, data.sysBP, data.diaBP,
+            data.BMI, data.heartRate, data.glucose
+        ]]
+        pred02 = model02.predict(hypertension_features)
+        results["Hypertension"] = pred02[0].item()
+    else:
+        results["Hypertension"] = "Error loading hypertension_model"
 
-     pred01 = model01.predict(diabetes_features)
-     pred02 = model02.predict(hypertension_features)
-     pred03 = model03.predict(nfld_features)
+    if model03:
+        nfld_features = [[data.age, data.gender, data.BMI]]
+        pred03 = model03.predict(nfld_features)
+        results["NFLD"] = pred03[0].item()
+    else:
+        results["NFLD"] = "Error loading nafld_model"
 
-     return {
-         "Diabetes": pred01[0],
-         "Hypertension": pred02[0],
-         "NFLD": pred03[0]
-     }
+    return results
 
 if __name__ == "__main__":
     import uvicorn
