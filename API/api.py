@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-import sklearn 
+import uvicorn
 import joblib
 
 path_model01 = 'Modules/diabetes_model.joblib'
@@ -44,7 +44,6 @@ class Prediction(BaseModel):
     currentSmoker: int
     cigsPerDay: float
     BPMeds: int
-    diabetes: int
     totChol: float
     sysBP: float
     diaBP: float
@@ -73,7 +72,7 @@ def predict(data: Prediction):
     if model02:
         hypertension_features = [[
             data.gender, data.age, data.currentSmoker, data.cigsPerDay,
-            data.BPMeds, data.diabetes, data.totChol, data.sysBP, data.diaBP,
+            data.BPMeds, pred01[0], data.totChol, data.sysBP, data.diaBP,
             data.BMI, data.heartRate, data.glucose
         ]]
         pred02 = model02.predict(hypertension_features)
@@ -91,7 +90,4 @@ def predict(data: Prediction):
     return results
 
 if __name__ == "__main__":
-    import uvicorn
-
-
     uvicorn.run(app, host="0.0.0.0", port=8000)
