@@ -230,3 +230,7 @@ This project is intended for **educational and research purposes only**. The pre
 ## 📄 License
 
 This project is open source. See your preferred license file for details.
+
+## 📄 Project Documentation
+
+* [Click here to view the full Project Proposal (PDF)](./Documentation/Code-v_Proposal.pdf)
